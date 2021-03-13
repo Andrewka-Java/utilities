@@ -11,6 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -19,7 +20,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-public class Utility extends ModelEntity {
+public class Utility extends ModelEntity implements Serializable {
+
+    private static final long serialVersionUID = -7985364239114879677L;
 
     @Column(name = "date", nullable = false)
     private LocalDate date;

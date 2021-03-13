@@ -6,13 +6,13 @@ package com.utilities.service.impl;
 
 import com.utilities.model.User;
 import com.utilities.repository.UserRepository;
-import com.utilities.service.GeneralService;
+import com.utilities.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements GeneralService<User> {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 

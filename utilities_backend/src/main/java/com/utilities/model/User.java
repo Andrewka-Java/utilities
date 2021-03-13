@@ -28,9 +28,6 @@ public class User extends ModelEntity implements Serializable {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
     @Column(name = "email", nullable = false)
     private String email;
 

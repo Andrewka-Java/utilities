@@ -9,13 +9,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "water")
 @Getter
 @Setter
-public class Water extends ModelEntity {
+public class Water extends ModelEntity implements Serializable {
+
+    private static final long serialVersionUID = 8155659653441098745L;
 
     @Column(name = "title")
     private String title;
