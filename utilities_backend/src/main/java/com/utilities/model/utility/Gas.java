@@ -4,25 +4,32 @@
 
 package com.utilities.model.utility;
 
-import com.utilities.model.User;
+import com.utilities.model.ModelEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "gas")
 @Getter
 @Setter
-public class Gas extends UtilityModel {
+public class Gas extends ModelEntity {
 
-    @ManyToOne
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "amount")
+    private BigDecimal amount;
+
+    @OneToOne
     @JoinColumn(
-            name = "user_id",
+            name = "utility_id",
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk_gas_user"),
+            foreignKey = @ForeignKey(name = "fk_gas_utility"),
             nullable = false
     )
-    protected User user;
+    protected Utility utility;
 
 }

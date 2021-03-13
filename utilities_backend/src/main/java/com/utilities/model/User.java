@@ -4,9 +4,7 @@
 
 package com.utilities.model;
 
-import com.utilities.model.utility.Electricity;
-import com.utilities.model.utility.Gas;
-import com.utilities.model.utility.Water;
+import com.utilities.model.utility.Utility;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,37 +38,17 @@ public class User extends ModelEntity implements Serializable {
     private BigDecimal bill;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Gas> gases;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Electricity> electricities;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Water> waters;
+    private Set<Utility> utilities;
 
     public User(final Integer id) {
         super(id);
     }
 
-    public void setGases(final Set<Gas> gases) {
-        if (gases != null) {
-            gases.forEach(gas -> gas.setUser(this));
+    public void setUtilities(final Set<Utility> utilities) {
+        if (utilities != null) {
+            utilities.forEach(utility -> utility.setUser(this));
         }
-        this.gases = gases;
-    }
-
-    public void setElectricities(final Set<Electricity> electricities) {
-        if (electricities != null) {
-            electricities.forEach(electricity -> electricity.setUser(this));
-        }
-        this.electricities = electricities;
-    }
-
-    public void setWaters(final Set<Water> waters) {
-        if (waters != null) {
-            waters.forEach(water -> water.setUser(this));
-        }
-        this.waters = waters;
+        this.utilities = utilities;
     }
 
 }
