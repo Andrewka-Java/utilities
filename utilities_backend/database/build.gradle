@@ -1,0 +1,30 @@
+apply plugin: 'liquibase'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'mysql:mysql-connector-java:8.0.13'
+        classpath 'org.liquibase:liquibase-core:3.8.9'
+        classpath 'org.liquibase:liquibase-gradle-plugin:1.1.1'
+    }
+}
+
+
+def changeLog = "$projectDir/src/main/resources/changes/changelog.xml"
+task('local') {
+    doLast {
+        println "executing local"
+        liquibase {
+            activities {
+                main {
+                    changeLogFile changeLog
+                    url 'jdbc:mysql://localhost:3306/utilities?serverTimezone=UTC&useSSL=false'
+                    username 'username'
+                    password 'password'
+                }
+            }
+        }
+    }
+}

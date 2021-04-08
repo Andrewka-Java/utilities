@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
+        logicalFilePath="scripts/000-init-database.xml">
+
+    <changeSet author="andrei.muryn" id="Create user table">
+        <createTable tableName="user">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="bill" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="andrei.muryn" id="Create utility table">
+        <createTable tableName="utility">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_utility_user" references="user(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="andrei.muryn" id="Create gas table">
+        <createTable tableName="gas">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="amount" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="utility_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_gas_utility" references="utility(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="andrei.muryn" id="Create water table">
+        <createTable tableName="water">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="amount" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="utility_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_water_utility" references="utility(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="andrei.muryn" id="Create electricity table">
+        <createTable tableName="electricity">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="amount" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="utility_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_electricity_utility" references="utility(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="andrei.muryn" id="Add database tag 000_1">
+        <tagDatabase tag="000_1"/>
+    </changeSet>
+
+</databaseChangeLog>
