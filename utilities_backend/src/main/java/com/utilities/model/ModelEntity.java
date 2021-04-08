@@ -26,20 +26,4 @@ public class ModelEntity {
         this.id = id;
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (o == null) {
-            return false;
-        } else if (this == o) {
-            return true;
-        } else if (getClass() != o.getClass()) {
-            return false;
-        }
-        return Objects.equals(id, ((ModelEntity)o).id);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }

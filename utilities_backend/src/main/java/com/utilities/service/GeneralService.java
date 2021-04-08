@@ -8,12 +8,14 @@ import java.util.List;
 
 public interface GeneralService<T> {
 
-    T findById(Integer id);
+    T findById(int id);
 
     List<T> findAll();
 
     T add(T t);
 
     T update(T t);
+
+    void delete(int id);
 
 }

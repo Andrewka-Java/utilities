@@ -4,6 +4,7 @@
 
 package com.utilities.model.utility;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.utilities.model.ModelEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "electricity")
@@ -20,12 +22,13 @@ public class Electricity extends ModelEntity implements Serializable {
 
     private static final long serialVersionUID = -7854527479507843566L;
 
-    @Column(name = "title")
-    private String title;
-
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
+    @JsonBackReference
     @OneToOne
     @JoinColumn(
             name = "utility_id",

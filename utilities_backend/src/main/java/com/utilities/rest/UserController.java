@@ -7,6 +7,8 @@ package com.utilities.rest;
 import com.utilities.model.User;
 import com.utilities.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +40,11 @@ public class UserController {
     @PutMapping("/{id}")
     public User updateUser(@RequestBody final User user) {
         return userService.update(user);
+    }
+
+    @GetMapping("/pages/{page}")
+    public Page<User> pageUsers(@PathVariable("page") final int page) {
+        return userService.findUsersIds(PageRequest.of(page - 1, 3));
     }
 
 
