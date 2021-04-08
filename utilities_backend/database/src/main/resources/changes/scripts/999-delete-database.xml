@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
+        logicalFilePath="scripts/999-delete-database.xml">
+
+
+    <changeSet author="andrei.muryn" id="Delete database">
+        <sql>
+            DROP DATABASE utilities;
+        </sql>
+    </changeSet>
+
+    <changeSet author="andrei.muryn" id="Delete database tag 999_1">
+        <tagDatabase tag="999_1"/>
+    </changeSet>
+
+</databaseChangeLog>

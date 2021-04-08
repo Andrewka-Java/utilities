@@ -14,4 +14,7 @@
     <include file="scripts/000-init-database.xml" relativeToChangelogFile="true"/>
 
 
+
+<!--    <include file="scripts/999-delete-database.xml" relativeToChangelogFile="true"/>-->
+
 </databaseChangeLog>

@@ -4,4 +4,4 @@ utilities_backend/.gradle/
 .idea/
 build/
 gradle/
-
+utilities_backend/src/test/resources/patch/
