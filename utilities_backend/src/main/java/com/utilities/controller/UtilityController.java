@@ -2,9 +2,9 @@
  *   Developed by Andrei Muryn© 2021
  */
 
-package com.utilities.rest;
+package com.utilities.controller;
 
-import com.utilities.model.utility.Utility;
+import com.utilities.model.Utility;
 import com.utilities.service.UtilityService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

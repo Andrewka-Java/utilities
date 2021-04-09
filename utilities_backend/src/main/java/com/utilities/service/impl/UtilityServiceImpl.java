@@ -4,7 +4,7 @@
 
 package com.utilities.service.impl;
 
-import com.utilities.model.utility.Utility;
+import com.utilities.model.Utility;
 import com.utilities.repository.UtilityRepository;
 import com.utilities.service.UtilityService;
 import lombok.AllArgsConstructor;

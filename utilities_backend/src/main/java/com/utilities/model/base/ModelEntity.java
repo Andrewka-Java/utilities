@@ -2,7 +2,7 @@
  *   Developed by Andrei Muryn© 2021
  */
 
-package com.utilities.model;
+package com.utilities.model.base;
 
 import lombok.*;
 

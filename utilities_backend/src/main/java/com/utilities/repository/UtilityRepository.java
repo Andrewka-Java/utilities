@@ -4,7 +4,7 @@
 
 package com.utilities.repository;
 
-import com.utilities.model.utility.Utility;
+import com.utilities.model.Utility;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UtilityRepository extends JpaRepository<Utility, Integer> {

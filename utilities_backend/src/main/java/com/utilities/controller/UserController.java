@@ -2,7 +2,7 @@
  *   Developed by Andrei Muryn© 2021
  */
 
-package com.utilities.rest;
+package com.utilities.controller;
 
 import com.utilities.model.User;
 import com.utilities.service.UserService;

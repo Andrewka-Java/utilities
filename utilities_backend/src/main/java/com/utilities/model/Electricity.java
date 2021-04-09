@@ -2,10 +2,10 @@
  *   Developed by Andrei Muryn© 2021
  */
 
-package com.utilities.model.utility;
+package com.utilities.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.utilities.model.ModelEntity;
+import com.utilities.model.base.ModelEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,12 +15,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "gas")
+@Table(name = "electricity")
 @Getter
 @Setter
-public class Gas extends ModelEntity implements Serializable {
+public class Electricity extends ModelEntity implements Serializable {
 
-    private static final long serialVersionUID = -374582317990741469L;
+    private static final long serialVersionUID = -7854527479507843566L;
 
     @Column(name = "amount")
     private BigDecimal amount;
@@ -33,7 +33,7 @@ public class Gas extends ModelEntity implements Serializable {
     @JoinColumn(
             name = "utility_id",
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "fk_gas_utility"),
+            foreignKey = @ForeignKey(name = "fk_electricity_utility"),
             nullable = false
     )
     protected Utility utility;

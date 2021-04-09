@@ -2,12 +2,11 @@
  *   Developed by Andrei Muryn© 2021
  */
 
-package com.utilities.model.utility;
+package com.utilities.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.utilities.model.ModelEntity;
-import com.utilities.model.User;
+import com.utilities.model.base.ModelEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

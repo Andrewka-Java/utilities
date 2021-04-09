@@ -4,7 +4,7 @@
 
 package com.utilities.service;
 
-import com.utilities.model.utility.Utility;
+import com.utilities.model.Utility;
 
 public interface UtilityService extends GeneralService<Utility> {
 

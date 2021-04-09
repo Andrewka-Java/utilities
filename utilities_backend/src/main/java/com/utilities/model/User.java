@@ -5,18 +5,15 @@
 package com.utilities.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.utilities.model.utility.Utility;
+import com.utilities.model.base.ModelEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -31,6 +28,9 @@ public class User extends ModelEntity implements Serializable {
 
     @Column(name = "username", nullable = false)
     private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "email", nullable = false)
     private String email;
