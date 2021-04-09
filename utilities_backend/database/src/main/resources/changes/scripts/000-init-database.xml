@@ -2,8 +2,7 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
         logicalFilePath="scripts/000-init-database.xml">
 
     <changeSet author="andrei.muryn" id="Create user table">
@@ -18,6 +17,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="username" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -94,5 +96,30 @@
     <changeSet author="andrei.muryn" id="Add database tag 000_1">
         <tagDatabase tag="000_1"/>
     </changeSet>
+
+    <changeSet author="andrei.muryn" id="Create auth table">
+        <createTable tableName="auth">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="access_token" type="varchar(4000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refresh_token" type="varchar(4000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_auth_user" references="user(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="andrei.muryn" id="Add database tag 000_2">
+        <tagDatabase tag="000_2"/>
+    </changeSet>
+
 
 </databaseChangeLog>

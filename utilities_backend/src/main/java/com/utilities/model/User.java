@@ -45,6 +45,8 @@ public class User extends ModelEntity implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Utility> utilities;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Auth auth;
 
     public User(final Integer id) {
         super(id);
