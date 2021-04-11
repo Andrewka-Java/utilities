@@ -25,6 +25,14 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${jwt.refresh.secret}")
+    private String refreshSecret;
+
+    @Value("${jwt.tokenExpirationMs}")
+    private int jwtTokenExpirationMs;
+
+    @Value("${jwt.refreshExpirationMs}")
+    private int jwtRefreshExpirationMs;
 
     public String getUsernameFromToken(final String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -56,11 +64,26 @@ public class JwtTokenUtil implements Serializable {
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
+    public String generateRefreshToken(final UserDetails userDetails) {
+        final Map<String, Object> claims = new HashMap<>();
+        return doGenerateRefreshToken(claims, userDetails.getUsername());
+    }
+
     private String doGenerateToken(final Map<String, Object> claims, final String subject) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+    }
+
+    private String doGenerateRefreshToken(final Map<String, Object> claims, final String subject) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtRefreshExpirationMs))
+                .signWith(SignatureAlgorithm.HS512, refreshSecret)
                 .compact();
     }
 

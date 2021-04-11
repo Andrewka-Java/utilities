@@ -10,6 +10,8 @@ import lombok.Value;
 @Value
 public class AuthResponseDto {
 
-    String jwtToken;
+    String accessToken;
+    String refreshToken;
+
 
 }
