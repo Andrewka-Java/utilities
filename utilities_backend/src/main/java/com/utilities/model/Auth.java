@@ -4,6 +4,7 @@
 
 package com.utilities.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.utilities.model.base.ModelEntity;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Auth extends ModelEntity implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(
             name = "user_id",

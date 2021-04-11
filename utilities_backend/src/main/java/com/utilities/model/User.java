@@ -6,16 +6,14 @@ package com.utilities.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.utilities.model.base.ModelEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -45,7 +43,8 @@ public class User extends ModelEntity implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Utility> utilities;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Auth auth;
 
     public User(final Integer id) {
