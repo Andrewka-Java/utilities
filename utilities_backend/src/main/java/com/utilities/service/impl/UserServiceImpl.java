@@ -4,6 +4,7 @@
 
 package com.utilities.service.impl;
 
+import com.sun.xml.internal.ws.util.UtilException;
 import com.utilities.model.Auth;
 import com.utilities.model.User;
 import com.utilities.repository.UserRepository;
@@ -18,16 +19,20 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+import static java.lang.String.format;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    public static final String USER_NOT_FOUND_MESSAGE_PATTERN = "User with id [%s] not found";
 
     private final UserRepository userRepository;
 
     @Override
     public User findById(final int id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User with id [" + id + "] not found"));
+                .orElseThrow(() -> new UtilException(format(USER_NOT_FOUND_MESSAGE_PATTERN, id)));
     }
 
     @Override
@@ -49,7 +54,6 @@ public class UserServiceImpl implements UserService {
     public void delete(final int id) {
         userRepository.deleteById(id);
     }
-
 
     @Override
     public Page<User> findUsersIds(final Pageable page) {
