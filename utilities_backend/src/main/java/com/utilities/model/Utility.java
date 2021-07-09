@@ -23,7 +23,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Utility extends ModelEntity implements Serializable {
 
     private static final long serialVersionUID = -7985364239114879677L;

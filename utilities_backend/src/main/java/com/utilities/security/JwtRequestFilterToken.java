@@ -1,0 +1,74 @@
+/*
+ *   Developed by Andrei Muryn© 2021
+ */
+
+package com.utilities.security;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@RequiredArgsConstructor
+@Component
+public class JwtRequestFilterToken extends OncePerRequestFilter {
+
+    private final UserDetailsService userDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
+
+    @Override
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
+        try {
+
+            final String requestAuthTokenHeader = request.getHeader("Authorization");
+            final String jwtToken = requestAuthTokenHeader != null && requestAuthTokenHeader.startsWith("Bearer ") ? requestAuthTokenHeader.substring(7) : null;
+            final String username;
+
+            if (jwtToken == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+                    final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+
+                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                }
+            }
+        } catch(final ExpiredJwtException ex) {
+            final String isRefreshToken = request.getHeader("refreshToken");
+            final String requestURL = request.getRequestURL().toString();
+
+            if (isRefreshToken != null && requestURL.contains("refresh-token")) {
+                allowForRefreshToken(ex, request);
+            }
+        }
+
+        filterChain.doFilter(request, response);
+    }
+
+    private void allowForRefreshToken(final ExpiredJwtException ex, final HttpServletRequest request) {
+        final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(null, null, null);
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        request.setAttribute("claims", ex.getClaims());
+    }
+
+}
