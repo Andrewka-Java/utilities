@@ -7,6 +7,7 @@ package com.utilities.controller;
 import com.utilities.dto.AuthRequestDto;
 import com.utilities.dto.AuthResponseDto;
 import com.utilities.security.JwtTokenUtil;
+import com.utilities.service.UserService;
 import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,10 @@ public class AuthController {
     public ResponseEntity<AuthResponseDto> createAuthenticationToken(@RequestBody final AuthRequestDto authRequestDto) {
         authenticate(authRequestDto.getUsername(), authRequestDto.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequestDto.getUsername());
+
         final String accessToken = jwtTokenUtil.generateToken(userDetails);
         final String refreshToken = jwtTokenUtil.generateRefreshToken(userDetails);
+
         return ResponseEntity.ok(new AuthResponseDto(accessToken, refreshToken));
     }
 

@@ -7,6 +7,7 @@ package com.utilities.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,22 +18,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = 1453829511997616548L;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final String secret;
+    private final String refreshSecret;
+    private final int jwtTokenExpirationMs;
+    private final int jwtRefreshExpirationMs;
 
-    @Value("${jwt.refresh.secret}")
-    private String refreshSecret;
-
-    @Value("${jwt.tokenExpirationMs}")
-    private int jwtTokenExpirationMs;
-
-    @Value("${jwt.refreshExpirationMs}")
-    private int jwtRefreshExpirationMs;
+    public JwtTokenUtil(
+            @Value("${jwt.secret}") final String secret,
+            @Value("${jwt.refresh.secret}") final String refreshSecret,
+            @Value("${jwt.tokenExpirationMs}") final int jwtTokenExpirationMs,
+            @Value("${jwt.refreshExpirationMs}") final int jwtRefreshExpirationMs
+    ) {
+        this.secret = secret;
+        this.refreshSecret = refreshSecret;
+        this.jwtTokenExpirationMs = jwtTokenExpirationMs;
+        this.jwtRefreshExpirationMs = jwtRefreshExpirationMs;
+    }
 
     public String getUsernameFromToken(final String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -67,6 +74,20 @@ public class JwtTokenUtil implements Serializable {
     public String generateRefreshToken(final UserDetails userDetails) {
         final Map<String, Object> claims = new HashMap<>();
         return doGenerateRefreshToken(claims, userDetails.getUsername());
+    }
+
+    public Claims getClaimsFromRefreshToken(final String refreshToken) {
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey(refreshSecret)
+                    .parseClaimsJws(refreshToken)
+                    .getBody();
+        } catch (final Exception ex) {
+            log.error("Could not get all claims Token from passed token");
+            claims = null;
+        }
+        return claims;
     }
 
     private String doGenerateToken(final Map<String, Object> claims, final String subject) {

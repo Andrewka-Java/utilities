@@ -22,7 +22,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class JwtRequestFilterToken extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
@@ -31,9 +31,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         try {
 
-            final String requestTokenHeader = request.getHeader("Authorization");
+            final String requestAuthTokenHeader = request.getHeader("Authorization");
+            final String jwtToken = requestAuthTokenHeader != null && requestAuthTokenHeader.startsWith("Bearer ") ? requestAuthTokenHeader.substring(7) : null;
             final String username;
-            final String jwtToken = requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ") ? requestTokenHeader.substring(7) : null;
 
             if (jwtToken == null) {
                 filterChain.doFilter(request, response);
@@ -70,4 +70,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         request.setAttribute("claims", ex.getClaims());
     }
+
 }

@@ -13,5 +13,4 @@ public class AuthResponseDto {
     String accessToken;
     String refreshToken;
 
-
 }

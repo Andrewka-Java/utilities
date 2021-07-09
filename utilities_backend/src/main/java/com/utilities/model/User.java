@@ -51,5 +51,13 @@ public class User extends ModelEntity implements Serializable {
         super(id);
     }
 
+    public void setAuth(final Auth auth) {
+        if (auth != null) {
+            auth.setUser(this);
+            this.auth = auth;
+        }
+        throw new RuntimeException("Auth is null");
+    }
+
 }
 

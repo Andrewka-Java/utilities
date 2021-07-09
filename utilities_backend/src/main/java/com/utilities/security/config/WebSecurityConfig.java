@@ -5,7 +5,8 @@
 package com.utilities.security.config;
 
 import com.utilities.security.JwtAuthenticationEntryPoint;
-import com.utilities.security.JwtRequestFilter;
+import com.utilities.security.JwtRequestFilterRefreshToken;
+import com.utilities.security.JwtRequestFilterToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +30,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtRequestFilter jwtRequestFilter;
+    private final JwtRequestFilterToken jwtRequestFilterToken;
+    private final JwtRequestFilterRefreshToken jwtRequestFilterRefreshToken;
     private final UserDetailsService userDetailsService;
 
 
@@ -63,6 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtRequestFilterRefreshToken, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtRequestFilterToken, UsernamePasswordAuthenticationFilter.class);
     }
 }
